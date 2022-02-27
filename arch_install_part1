@@ -1,7 +1,8 @@
 #!/bin/bash
 
-curl -sL https://raw.githubusercontent.com/omersch381/arch-linux-install-ansible/master/arch_install_part1
-curl -sL https://raw.githubusercontent.com/omersch381/arch-linux-install-ansible/master/arch_install_part2
+curl -sL https://raw.githubusercontent.com/omersch381/arch-linux-install-ansible/master/arch_install_part2 > arch_install_part2.sh
+
+chmod u+x arch_install_part2.sh
 
 pacman -Syy reflector --noconfirm
 timedatectl set-ntp true
