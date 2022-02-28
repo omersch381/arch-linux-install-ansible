@@ -18,17 +18,9 @@ mount /dev/sda1 /boot/efi
 grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 
-sed -i -e 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/g' /etc/sudoers
-
 echo 'Set root password'
 passwd
 
-read -p "Enter username: " name
-useradd -m $name
-echo "Set password for $name"
-passwd $name
-
-usermod -aG wheel $name
 systemctl enable NetworkManager
 
 exit 
