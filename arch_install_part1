@@ -15,7 +15,7 @@ parted --script /dev/sda mklabel msdos mkpart primary fat32 1MiB 513MiB set 1 bo
 
 # Create file system
 mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.ext4 -F /dev/sda2
 
 # Configure the pacman mirrors and install (and run) reflector
 pacman -Syy reflector --noconfirm
