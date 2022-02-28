@@ -26,16 +26,16 @@ reflector --protocol http --protocol https --latest 20 --sort rate --save /etc/p
 mount /dev/sda2 /mnt
 
 # Install necessary packages
-pacstrap /mnt base linux linux-firmware vim
+pacstrap /mnt base linux linux-firmware vim networkmanager
 
 # Generate fstab file
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run the arch-chroot part
-cp arch_install_part2 /mnt/home/
-arch-chroot /mnt sh /home/arch_install_part2
+cp arch_install_part2.sh /mnt/home/
+arch-chroot /mnt sh /home/arch_install_part2.sh
 
 # Cleanup
-rm /mnt/home/arch_install_part2
+rm /mnt/home/arch_install_part2.sh
 echo 'Setup Complete!'
 echo 'type "reboot" and remove installation media.'
