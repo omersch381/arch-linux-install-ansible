@@ -1,0 +1,15 @@
+---
+become: yes
+become_user: "{{ username }}"
+
+- name: Clone bare dotfiles repo
+  git:
+    repo: "{{ dotfiles_git_repo }}"
+    bare: yes
+    dest: "/home/{{ username }}/.config/dotfiles.git"
+
+- name: Checkout bare dotfiles repo
+  shell: "/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME checkout --force"
+
+- name: Don't show untracked files on git status
+  shell: "/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME config --local status.showUntrackedFiles no"

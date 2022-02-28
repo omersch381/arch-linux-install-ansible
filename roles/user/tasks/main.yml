@@ -1,0 +1,14 @@
+---
+- name: Ensure the first non admin user is in wheel group
+  user:
+    name: "{{ username }}"
+    groups:
+      - wheel
+    append: yes
+    shell: /usr/bin/zsh
+
+- name: Ensure users in wheel group can run sudo commands
+  lineinfile:
+    path: /etc/sudoers
+    line: "%wheel ALL=(ALL) ALL"
+    validate: "visudo -cf %s"
