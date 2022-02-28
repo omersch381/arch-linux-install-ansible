@@ -1,29 +1,41 @@
 #!/bin/bash
 
+# Download the second script from GitHub and add execution permission
 curl -sL https://raw.githubusercontent.com/omersch381/arch-linux-install-ansible/master/arch_install_part2 > arch_install_part2.sh
-
 chmod u+x arch_install_part2.sh
 
-pacman -Syy reflector --noconfirm
+# Configure ntp
 timedatectl set-ntp true
 
-parted --script /dev/sda mkpart primary fat32 1MiB 513MiB set 1 boot on mkpart primary ext4 513Mib 10GiB
+# Clean partitions on /dev/sda and create 2 new partitions:
+#     ESP (for UEFI)
+#     root
+dd if=/dev/zero of=/dev/sda bs=512 count=1 conv=notrunc
+parted --script /dev/sda mklabel msdos mkpart primary fat32 1MiB 513MiB set 1 boot on mkpart primary ext4 513Mib 10GiB
 
+# Create file system
 mkfs.fat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
-mount /dev/sda1 /mnt
 
+# Configure the pacman mirrors and install (and run) reflector
+pacman -Syy reflector --noconfirm
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 reflector --protocol http --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
 
+# Mount arch linux
 mount /dev/sda2 /mnt
+
+# Install necessary packages
 pacstrap /mnt base linux linux-firmware vim
+
+# Generate fstab file
 genfstab -U /mnt >> /mnt/etc/fstab
 
-
+# Run the arch-chroot part
 cp arch_install_part2 /mnt/home/
 arch-chroot /mnt sh /home/arch_install_part2
 
+# Cleanup
 rm /mnt/home/arch_install_part2
 echo 'Setup Complete!'
 echo 'type "reboot" and remove installation media.'
