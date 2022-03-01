@@ -1,5 +1,0 @@
----
-vars:
-  username: omer
-  hostname: "{{ hostname }}"
-#  dotfiles_git_repo: TODO

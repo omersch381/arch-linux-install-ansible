@@ -2,11 +2,7 @@
 - name: Install and configure arch linux
   connection: local
   hosts: localhost
-  vars:
-    username: "{{ username }}"
-   # dotfiles_git_repo: "{{ dotfiles_git_repo }}"
-  
   roles:
-    - core
+    #- core
     # - dotfiles
     - user

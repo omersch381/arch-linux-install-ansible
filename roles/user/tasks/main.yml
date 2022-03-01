@@ -2,6 +2,7 @@
 - name: Ensure the first non admin user is in wheel group
   user:
     name: "{{ username }}"
+    password: "{{ non_root_password }}"
     groups:
       - wheel
     append: yes
