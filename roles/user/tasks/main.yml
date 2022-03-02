@@ -1,5 +1,15 @@
 ---
-- name: Ensure the first non admin user is in wheel group
+- name: Ensure sudo package exists
+  pacman:
+    name: sudo
+    state: latest
+
+- name: Ensure wheel group exists
+  group:
+    name: wheel
+    state: present
+
+- name: Ensure the first non admin user exists and is in wheel group
   user:
     name: "{{ username }}"
     password: "{{ non_root_password }}"
