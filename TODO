@@ -1,1 +1,8 @@
+Some tasks I consider a must:
+* Take care of the dotfiles role
 * Add zsh & oh-my-zsh installation to user, as currently the user's shells defined to be zsh but zsh is not installed
+
+
+Some tasks I consider as nice to have:
+* Allow users to decide how they want their partitions (let them design the partitions rather than deciding for them to have the partitions as I do)
+* Add an ansible cron module to create a job to update in a certain frequency the dotfiles git.
