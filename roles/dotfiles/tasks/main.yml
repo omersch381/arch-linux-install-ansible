@@ -1,15 +1,20 @@
 ---
-become: yes
-become_user: "{{ username }}"
-
 - name: Clone bare dotfiles repo
+  vars:
+    # converting from "https://github.com/username/repo_name" -> "https://username:token@github.com/username/repo_name"
+    url_parts: "{{ dotfiles_git_repo | split('/') }}"
+    github_username: "{{ url_parts[3] }}"
+    github_domain: "{{ url_parts[2] }}"
+    github_repo_name: "{{ url_parts[4] }}"
+    extended_url: "https://{{ github_username }}:{{ github_token }}@{{ github_domain }}/{{ github_username }}/{{ github_repo_name }}"
   git:
-    repo: "{{ dotfiles_git_repo }}"
+    #repo: "https://{{ url_parts[3] }}:{{ github_token }}@{{ url_parts[2] }}/{{ url_parts[3] }}/{{ url_parts[4] }}"
+    repo: "{{ extended_url }}" 
     bare: yes
-    dest: "/home/{{ username }}/.config/dotfiles.git"
+    dest: "/home/{{ hostname }}/.config/dotfiles.git"
 
 - name: Checkout bare dotfiles repo
-  shell: "/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME checkout --force"
+  shell: "/usr/bin/git --git-dir=/home/{{ hostname }}/.config/dotfiles.git --work-tree=/home/{{ hostname }} checkout --force"
 
 - name: Don't show untracked files on git status
-  shell: "/usr/bin/git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME config --local status.showUntrackedFiles no"
+  shell: "/usr/bin/git --git-dir=/home/{{ hostname }}/.config/dotfiles.git --work-tree=/home/{{ hostname }} config --local status.showUntrackedFiles no"

@@ -1,5 +1,4 @@
 Some tasks I consider a must:
-* Take care of the dotfiles role
 * Add zsh & oh-my-zsh installation to user, as currently the user's shells defined to be zsh but zsh is not installed
 
 

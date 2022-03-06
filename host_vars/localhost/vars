@@ -1,4 +1,5 @@
 ---
 username: omer
 hostname: omer
-#  dotfiles_git_repo: TODO
+dotfiles_git_repo: https://github.com/omersch381/dotfiles
+github_username: omersch381
