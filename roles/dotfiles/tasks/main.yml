@@ -3,12 +3,8 @@
   vars:
     # converting from "https://github.com/username/repo_name" -> "https://username:token@github.com/username/repo_name"
     url_parts: "{{ dotfiles_git_repo | split('/') }}"
-    github_username: "{{ url_parts[3] }}"
-    github_domain: "{{ url_parts[2] }}"
-    github_repo_name: "{{ url_parts[4] }}"
-    extended_url: "https://{{ github_username }}:{{ github_token }}@{{ github_domain }}/{{ github_username }}/{{ github_repo_name }}"
+    extended_url: "https://{{ url_parts[3] }}:{{ github_token }}@{{ url_parts[2] }}/{{ url_parts[3] }}/{{ url_parts[4] }}"
   git:
-    #repo: "https://{{ url_parts[3] }}:{{ github_token }}@{{ url_parts[2] }}/{{ url_parts[3] }}/{{ url_parts[4] }}"
     repo: "{{ extended_url }}" 
     bare: yes
     dest: "/home/{{ hostname }}/.config/dotfiles.git"
@@ -18,3 +14,25 @@
 
 - name: Don't show untracked files on git status
   shell: "/usr/bin/git --git-dir=/home/{{ hostname }}/.config/dotfiles.git --work-tree=/home/{{ hostname }} config --local status.showUntrackedFiles no"
+
+- name: Ensure cronie.service is presented
+  pacman:
+    name: cronie
+    state: latest
+
+- name: Start and enable cronie.service
+  service:
+    name: cronie.service
+    state: started
+    enabled: true
+
+- name: Install a crontab job which pushes daily changes of the dotfiles repository to GitHub
+  ansible.builtin.cron:
+    name: Push dotfiles changes to GitHub
+    job: "{{ role_path }}/files/dotfiles_updater.sh"
+    minute: "0"
+    hour: "23"
+    user: root
+    weekday: "*"
+    state: present
+

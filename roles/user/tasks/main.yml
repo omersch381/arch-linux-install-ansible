@@ -1,4 +1,8 @@
 ---
+- name: Initial pacman configuration
+  shell:
+    cmd: "pacman -Syy --noconfirm"
+
 - name: Ensure sudo package exists
   pacman:
     name: sudo

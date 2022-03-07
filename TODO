@@ -1,6 +1,8 @@
 Some tasks I consider a must:
 * Add zsh & oh-my-zsh installation to user, as currently the user's shells defined to be zsh but zsh is not installed
-
+* Replace all module names with namespace.package.module 
+* Test the crontab job on a real machine (not a container - WSL problems)
+* Test the playbook when run with regular user (not root).
 
 Some tasks I consider as nice to have:
 * Allow users to decide how they want their partitions (let them design the partitions rather than deciding for them to have the partitions as I do)
