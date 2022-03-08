@@ -31,10 +31,9 @@ pacstrap /mnt base linux linux-firmware vim networkmanager
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run the arch-chroot part
-cp arch_install_part2.sh /mnt/home/
-arch-chroot /mnt sh /home/arch_install_part2.sh
+cp -r ../arch-linux-install-ansible-main /mnt/home/
+arch-chroot /mnt sh home/arch-linux-install-ansible-main/arch_install_part2.sh
 
 # Cleanup
-rm /mnt/home/arch_install_part2.sh
 echo 'Setup Complete!'
 echo 'type "reboot" and remove installation media.'
