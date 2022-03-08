@@ -1,4 +1,9 @@
 ---
+- name: Ensure git package is installed
+  pacman:
+    name: git
+    state: latest
+
 - name: Clone bare dotfiles repo
   vars:
     # converting from "https://github.com/username/repo_name" -> "https://username:token@github.com/username/repo_name"
@@ -15,7 +20,7 @@
 - name: Don't show untracked files on git status
   shell: "/usr/bin/git --git-dir=/home/{{ hostname }}/.config/dotfiles.git --work-tree=/home/{{ hostname }} config --local status.showUntrackedFiles no"
 
-- name: Ensure cronie.service is presented
+- name: Ensure cronie package is installed
   pacman:
     name: cronie
     state: latest
@@ -35,4 +40,3 @@
     user: root
     weekday: "*"
     state: present
-

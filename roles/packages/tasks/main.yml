@@ -10,6 +10,11 @@
     state: directory
     owner: "{{ username }}"
 
+- name: Ensure base-devel is installed
+  pacman:
+    name: base-devel
+    state: latest
+
 - name: Install yay
   become: yes
   become_user: "{{ username }}"
@@ -49,5 +54,15 @@
     minute: "0"
     hour: "0"
     user: root
-    weekday: "SAT"
+    weekday: "*"
+    state: present
+
+- name: Install a crontab job which lists the yay packages as a yay dotfile
+  ansible.builtin.cron:
+    name: Push list yay packages as a yay dotfile
+    job: "/usr/bin/yay -Qe | awk '{ print $1 }' > /home/omer/.config/yay/packages"
+    minute: "0"
+    hour: "0"
+    user: root
+    weekday: "*"
     state: present
