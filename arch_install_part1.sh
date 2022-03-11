@@ -32,7 +32,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # Run the arch-chroot part
 cp -r ../arch-linux-install-ansible-main /mnt/root
-arch-chroot /mnt sh home/arch-linux-install-ansible-main/arch_install_part2.sh
+arch-chroot /mnt sh root/arch-linux-install-ansible-main/arch_install_part2.sh
 
 # Cleanup
 echo 'Setup Complete!'
