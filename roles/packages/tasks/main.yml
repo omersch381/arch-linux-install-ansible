@@ -8,7 +8,7 @@
   file:
     path: /opt/yay
     state: directory
-    owner: "{{ username }}"
+    owner: "{{ hostname }}"
 
 - name: Ensure base-devel is installed
   pacman:
@@ -17,40 +17,41 @@
 
 - name: Install yay
   become: yes
-  become_user: "{{ username }}"
+  become_user: "{{ hostname }}"
   shell:
     chdir: /opt/yay
     cmd: makepkg -si --needed --noconfirm
 
 - name: Remove b43-firmware from packages in case it is not required
-  become: true
-  become_user: root
   block:
-    - name: Verify if b43-firmware is in dmesg
+    - name: Get dmesg output
       become: true
       become_user: root
       shell:
-        cmd: /usr/bin/dmesg | grep b43
-      register: is_b43_required
-
-    - debug:
-        var: is_b43_required
+        cmd: /usr/bin/dmesg
+      register: dmesg_var
 
     - name: remove b43-firmware packages in case it isn't in dmesg
       lineinfile:
-        path: /home/{{ username }}/.config/yay/packages
+        path: /home/{{ hostname }}/.config/yay/packages
         state: absent
         regexp: 'b43'
-      when: is_b43_required == ''
+      when: '"b43" not in dmesg_var.stdout_lines'
+
+- name: remove playonlinux from default yay packages
+  lineinfile:
+    path: /home/{{ hostname }}/.config/yay/packages
+    state: absent
+    regexp: 'playonlinux'
 
 - name: Install aur packages
   become: yes
-  shell: "yay -S --needed --noconfirm - < /home/{{ username }}/.config/yay/packages"
+  shell: "yay -S --needed --noconfirm - < /home/{{ hostname }}/.config/yay/packages"
 
 - name: Ensure yay packages are documented in .confing/yay directory by a cron job
   ansible.builtin.cron:
     name: Ensure yay packages are documented in .confing/yay directory
-    job: /usr/bin/yay -Qe | awk '{ print $1 }' > /home/omer/.config/yay/packages
+    job: /usr/bin/yay -Qe | awk '{ print $1 }' > /home/{{ hostname }}/.config/yay/packages
     minute: "0"
     hour: "0"
     user: root
@@ -60,7 +61,7 @@
 - name: Install a crontab job which lists the yay packages as a yay dotfile
   ansible.builtin.cron:
     name: Push list yay packages as a yay dotfile
-    job: "/usr/bin/yay -Qe | awk '{ print $1 }' > /home/omer/.config/yay/packages"
+    job: "/usr/bin/yay -Qe | awk '{ print $1 }' > /home/{{ hostname }}/.config/yay/packages"
     minute: "0"
     hour: "0"
     user: root
