@@ -10,7 +10,7 @@ timedatectl set-ntp true
 #     ESP (for UEFI)
 #     root
 dd if=/dev/zero of=/dev/sda bs=512 count=1 conv=notrunc
-parted --script /dev/sda mklabel msdos mkpart primary fat32 1MiB 513MiB set 1 boot on mkpart primary ext4 513Mib 10GiB
+parted --script /dev/sda mklabel msdos mkpart primary fat32 1MiB 513MiB set 1 boot on mkpart primary ext4 513Mib 100%
 
 # Create file system
 mkfs.fat -F32 /dev/sda1
