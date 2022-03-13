@@ -47,6 +47,7 @@
 - name: Install aur packages
   become: yes
   shell: "yay -S --needed --noconfirm - < /home/{{ hostname }}/.config/yay/packages"
+  ignore_errors: true
 
 - name: Ensure yay packages are documented in .confing/yay directory by a cron job
   ansible.builtin.cron:
@@ -54,7 +55,7 @@
     job: /usr/bin/yay -Qe | awk '{ print $1 }' > /home/{{ hostname }}/.config/yay/packages
     minute: "0"
     hour: "0"
-    user: root
+    user: "{{ hostname }}"
     weekday: "*"
     state: present
 
@@ -64,6 +65,6 @@
     job: "/usr/bin/yay -Qe | awk '{ print $1 }' > /home/{{ hostname }}/.config/yay/packages"
     minute: "0"
     hour: "0"
-    user: root
+    user: "{{ hostname }}"
     weekday: "*"
     state: present
