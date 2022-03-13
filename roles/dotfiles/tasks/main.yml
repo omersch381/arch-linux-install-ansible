@@ -30,13 +30,3 @@
     name: cronie.service
     state: started
     enabled: true
-
-- name: Install a crontab job which pushes daily changes of the dotfiles repository to GitHub
-  ansible.builtin.cron:
-    name: Push dotfiles changes to GitHub
-    job: "{{ role_path }}/files/dotfiles_updater.sh"
-    minute: "0"
-    hour: "23"
-    user: root
-    weekday: "*"
-    state: present
