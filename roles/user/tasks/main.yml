@@ -13,14 +13,16 @@
     name: wheel
     state: present
 
+# After we install the zsh package we will change the non user default shell
+- name: Ensure the first non admin user exists and is in wheel group
+  shell:
+    cmd: useradd -m -g users -G wheel -s /bin/bash {{ username }}
+
 - name: Ensure the first non admin user exists and is in wheel group
   user:
     name: "{{ username }}"
+    update_password: always
     password: "{{ non_root_password | password_hash('sha512') }}"
-    groups:
-      - wheel
-    append: yes
-    shell: /usr/bin/bash
 
 - name: Ensure users in wheel group can run sudo commands
   lineinfile:
