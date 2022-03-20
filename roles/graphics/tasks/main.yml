@@ -4,7 +4,7 @@
     name:
       - xorg-xinit
       - xorg-server
-      - i3
+      - i3-wm
       - rrdtool
       - xterm
       - feh
@@ -23,8 +23,14 @@
 - name: Comment all irrelevant .xinitrc lines
   replace:
     path: "{{ xinitrc_path }}"
-    regexp: '^xterm|^exec''
-    replace: '#\1'
+    regexp: '^(xterm)'
+    replace: '# \1'
+
+- name: Comment all irrelevant .xinitrc lines
+  replace:
+    path: "{{ xinitrc_path }}"
+    regexp: '^(exec)'
+    replace: '# \1'
 
 - name: Ensure bash_profile starts Xorg
   blockinfile:
