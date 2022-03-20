@@ -35,7 +35,7 @@
       fi
 
 - name: Ensure Xorg starts with i3
-      lineinfile:
-        path: "{{ xinitrc_path }}"
-        insertafter: EOF
-        line: 'exec i3'
+  lineinfile:
+    path: "{{ xinitrc_path }}"
+    insertafter: EOF
+    line: 'exec i3'
