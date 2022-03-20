@@ -45,3 +45,7 @@
     path: "{{ xinitrc_path }}"
     insertafter: EOF
     line: 'exec i3'
+
+- name: Ensure nerd-meslo-fonts is installed
+  shell:
+    cmd: "yay -S --needed --noconfirm nerd-meslo-fonts"
