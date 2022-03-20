@@ -1,0 +1,25 @@
+---
+- name: Ensure zsh package is installed
+  pacman:
+    name: zsh
+    state: latest
+
+- name: Ensure zsh is the non root user's shell
+  user:
+    name: "{{ hostname }}"
+    shell: /usr/bin/zsh
+
+- name: Ensure oh-my-zsh is installed
+  shell:
+    cmd: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+- name: Ensure zsh autosuggestions is installed
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: /home/{{ hostname }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+
+- name: Ensure zsh powerlevel10k theme is installed
+  git:
+    repo: https://github.com/zsh-users/zsh-autosuggestions
+    dest: /home/{{ hostname }}/.oh-my-zsh/custom/themes/powerlevel10k
+    depth: 1

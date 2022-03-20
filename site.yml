@@ -6,5 +6,6 @@
     #- core
     #- user
     #- dotfiles
-    - packages 
-    - graphics
+    #- packages 
+    #- graphics
+    - zsh
