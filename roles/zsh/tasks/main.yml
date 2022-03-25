@@ -20,6 +20,64 @@
 
 - name: Ensure zsh powerlevel10k theme is installed
   git:
-    repo: https://github.com/zsh-users/zsh-autosuggestions
+    repo: https://github.com/romkatv/powerlevel10k.git
     dest: /home/{{ hostname }}/.oh-my-zsh/custom/themes/powerlevel10k
     depth: 1
+
+- name: Ensure zsh fzf is downloaded
+  git:
+    repo: https://github.com/junegunn/fzf.git
+    dest: /home/{{ hostname }}/.fzf
+    depth: 1
+
+- name: Ensure zsh fzf is installed
+  command:
+    cmd: /home/{{ hostname }}/.fzf/install
+
+- name: Ensure zsh env files are being copied and owned from root to non root user
+  copy:
+    src: "{{ item }}"
+    dest: /home/{{ hostname }}/
+    owner: "{{ hostname }}"
+    group: users
+  with_items:
+    - /root/.zshrc
+    - /root/.zsh_history
+    - /root/.oh-my-zsh
+
+- name: Ensure oh-my-zsh using the powerlevel10k theme
+  lineinfile:
+    line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+    path: /home/{{ hostname }}/.zshrc
+    regexp: "^(ZSH_THEME)"
+
+- name: Remove the default plugins oh-my-zsh provide
+  lineinfile:
+    path: /home/{{ hostname }}/.zshrc
+    state: absent
+    regexp: "plugins=(git)"
+
+- name: Insert my plugins for oh-my-zsh to be used
+  blockinfile:
+    path: /home/{{ hostname }}/.zshrc
+    insertbefore: 'source $ZSH/oh-my-zsh.sh'
+    block: |
+      plugins=(
+      git
+      zsh-autosuggestions
+      sudo
+      dirhistory
+      )
+
+- name: Ensure .zprofile exists
+  copy:
+    src: /etc/zsh/zprofile
+    dest: /home/{{ hostname }}/.zprofile
+
+- name: Ensure .zprofile starts Xorg
+  blockinfile:
+    path: /home/{{ hostname }}/.zprofile
+    block: |
+      if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+              startx
+      fi
