@@ -10,27 +10,37 @@
     shell: /usr/bin/zsh
 
 - name: Ensure oh-my-zsh is installed
+  become: true
+  become_user: "{{ hostname }}"
   shell:
     cmd: sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-- name: Ensure zsh autosuggestions is installed
+- name: Ensure zsh autosuggestions is downloaded
+  become: true
+  become_user: "{{ hostname }}"
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
     dest: /home/{{ hostname }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 
-- name: Ensure zsh powerlevel10k theme is installed
+- name: Ensure zsh powerlevel10k theme is downloaded
+  become: true
+  become_user: "{{ hostname }}"
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: /home/{{ hostname }}/.oh-my-zsh/custom/themes/powerlevel10k
     depth: 1
 
 - name: Ensure zsh fzf is downloaded
+  become: true
+  become_user: "{{ hostname }}"
   git:
     repo: https://github.com/junegunn/fzf.git
     dest: /home/{{ hostname }}/.fzf
     depth: 1
 
 - name: Ensure zsh fzf is installed
+  become: true
+  become_user: "{{ hostname }}"
   command:
     cmd: /home/{{ hostname }}/.fzf/install
 
@@ -42,8 +52,15 @@
     group: users
   with_items:
     - /root/.zshrc
-    - /root/.zsh_history
     - /root/.oh-my-zsh
+
+- name: Recursively change ownership of a directory
+  ansible.builtin.file:
+    path: /home/{{ hostname }}
+    state: directory
+    recurse: yes
+    owner: {{ hostname }}
+    group: {{ hostname }}
 
 - name: Ensure oh-my-zsh using the powerlevel10k theme
   lineinfile:
@@ -68,6 +85,14 @@
       sudo
       dirhistory
       )
+
+- name: Ensure fzf files are being sourced
+  blockinfile:
+    path: /home/{{ hostname }}/.zshrc
+    insertafter:EOF
+    block: |
+      source ~/.fzf/shell/key-bindings.zsh
+      source ~/.fzf/shell/completion.zsh
 
 - name: Ensure .zprofile exists
   copy:
