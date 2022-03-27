@@ -44,23 +44,13 @@
   command:
     cmd: /home/{{ hostname }}/.fzf/install
 
-- name: Ensure zsh env files are being copied and owned from root to non root user
-  copy:
-    src: "{{ item }}"
-    dest: /home/{{ hostname }}/
-    owner: "{{ hostname }}"
-    group: users
-  with_items:
-    - /root/.zshrc
-    - /root/.oh-my-zsh
-
 - name: Recursively change ownership of a directory
   ansible.builtin.file:
     path: /home/{{ hostname }}
     state: directory
     recurse: yes
     owner: "{{ hostname }}"
-    group: "{{ hostname }}"
+    group: users
 
 - name: Ensure oh-my-zsh using the powerlevel10k theme
   lineinfile:
