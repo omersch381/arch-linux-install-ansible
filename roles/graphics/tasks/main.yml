@@ -46,6 +46,6 @@
     insertafter: EOF
     line: 'exec i3'
 
-- name: Ensure nerd-meslo-fonts is installed
+- name: Ensure nerd-fonts-meslo is installed
   shell:
-    cmd: "yay -S --needed --noconfirm nerd-meslo-fonts"
+    cmd: "yay -S --needed --noconfirm nerd-fonts-meslo"
