@@ -5,9 +5,11 @@
       - xorg-xinit
       - xorg-server
       - i3-wm
+      - i3status
       - rrdtool
       - xterm
       - feh
+      - alacritty
     state: latest
 
 - name: Copy xinit sample file
