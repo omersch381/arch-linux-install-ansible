@@ -59,8 +59,8 @@
     path: /home/{{ hostname }}
     state: directory
     recurse: yes
-    owner: {{ hostname }}
-    group: {{ hostname }}
+    owner: "{{ hostname }}"
+    group: "{{ hostname }}"
 
 - name: Ensure oh-my-zsh using the powerlevel10k theme
   lineinfile:
@@ -89,7 +89,7 @@
 - name: Ensure fzf files are being sourced
   blockinfile:
     path: /home/{{ hostname }}/.zshrc
-    insertafter:EOF
+    insertafter: EOF
     block: |
       source ~/.fzf/shell/key-bindings.zsh
       source ~/.fzf/shell/completion.zsh
