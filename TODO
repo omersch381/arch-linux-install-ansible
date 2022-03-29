@@ -1,7 +1,6 @@
 Some tasks I consider a must:
 * Replace all module names with namespace.package.module 
-* Add to README the `curl -LOJ shorturl.at/cgwHQ` option
-* Add to README `bsdtar xvf archive.zip`
+* Replace ansible-playbook with ansible-navigator run. 
 
 Some tasks I consider as nice to have:
 * Allow users to decide how they want their partitions (let them design the partitions rather than deciding for them to have the partitions as I do)

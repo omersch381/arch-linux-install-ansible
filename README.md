@@ -35,6 +35,8 @@ Log in as root, and run the following steps:
 1. `cd arch-linux-install-ansible-main`
 2. `pacman -S ansible`
 
+Edit `vim host_vars/localhost/vars` - change the variables so they will fit yours.
+
 Create 1 file in the repo:
 `touch host_vars/localhost/passwords`
 `vim host_vars/localhost/passwords`
