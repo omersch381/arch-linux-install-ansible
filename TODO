@@ -1,14 +1,7 @@
 Some tasks I consider a must:
-* Add zsh & oh-my-zsh installation to user, as currently the user's shells defined to be zsh but zsh is not installed
 * Replace all module names with namespace.package.module 
-* Test the crontab job on a real machine (not a container - WSL problems)
-* Test the playbook when run with regular user (not root).
 * Add to README the `curl -LOJ shorturl.at/cgwHQ` option
 * Add to README `bsdtar xvf archive.zip`
-* Add an install.sh which will handle the initial things as the archiso user - like unzip, chomod the script, etc
-* Make all the tasks which require variables optional (using when)
-
 
 Some tasks I consider as nice to have:
 * Allow users to decide how they want their partitions (let them design the partitions rather than deciding for them to have the partitions as I do)
-* Add an ansible cron module to create a job to update in a certain frequency the dotfiles git.
