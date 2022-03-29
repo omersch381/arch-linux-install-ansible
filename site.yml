@@ -3,9 +3,9 @@
   connection: local
   hosts: localhost
   roles:
-    #- core
-    #- user
-    #- dotfiles
-    #- packages 
-    #- graphics
+    - core
+    - user
+    - dotfiles
+    - packages 
+    - graphics
     - zsh
