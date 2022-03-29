@@ -1,38 +1,34 @@
-Role Name
-=========
+Packages
+========
 
-A brief description of the role goes here.
+This role installs yay (Yet another yogurt - a pacman wrapper), and installs all packages from the dotfiles repo.
+Note: the packages role does not depend on the dotfiles repository, as the dotfiles role takes care of spitting the list of packages in /home/{{ hostname }}/.config/yay/packages.
+In other words: it does not depend on the repo itself, but it does depend on the dotfiles role. 
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Have a 'host_vars/localhost/vars' file, which will have the variable 
+'hostname: YOUR_HOSTNAME'.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+None, because I preferred to have all the playbook's variables on one place (hence it is on host_vars/localhost/vars).
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Dotfiles role.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Mention the role in the site.yml playbook, after the dotfiles role:
 
-    - hosts: servers
+    - name: Install and configure arch linux
+      connection: local
+      hosts: localhost
       roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+        - dotfiles
+        - packages
