@@ -13,7 +13,7 @@ To this:
 
 ## Usage
 
-First, please read through this guide before running any commands!
+First, please read through this guide before running any commands! <br />
 Second, please view arch_install_part1.sh, arch_install_part2.sh, the playbook and roles and modify them to your personal liking (I write how to get the repo files on the archiso tty in this README).
 
 After you are sure about the scripts you are about to install, insert the Arch Linux installation medium, and enter the installation menu, choose the first option (the option that contains the "archiso", and "UEFI"). After around 30 seconds, you will get the archiso shell prompt (the interactive control), and then run the following steps:
@@ -26,9 +26,9 @@ Or
 4. `chmod u+x arch_install_part1.sh`
 5. `./arch_install_part1.sh`
 
-The first script will install everything which is normally installed until the arch-chroot part.
-The second script will be run by the first one from the /mnt directory.
-At some point the installation script will ask you for a root password.
+The first script will install everything which is normally installed until the arch-chroot part. <br />
+The second script will be run by the first one from the /mnt directory. <br />
+At some point the installation script will ask you for a root password. <br />
 You should see 'Setup Complete!', and 'type "reboot" and remove installation media'. Reboot the machine.
 
 Log in as root, and run the following steps:
@@ -37,13 +37,13 @@ Log in as root, and run the following steps:
 
 Edit `vim host_vars/localhost/vars` - change the variables so they will fit yours.
 
-Create 1 file in the repo:
-`touch host_vars/localhost/passwords`
+Create 1 file in the repo: <br />
+`touch host_vars/localhost/passwords` <br />
 `vim host_vars/localhost/passwords`
 
-Make sure you have 2 variables: non_root_password, github_token.
-non_root_password will be the non root (user's) password.
-github_token will be your github_token. [For more information, please click here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+Make sure you have the following 2 variables on host_vars/localhost/passwords: non_root_password, github_token. <br />
+non_root_password will be the non root (user's) password. <br />
+github_token will be your github_token. [For more information about github personal tokens, please click here.](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
 An example to that file could be:
 `````````````````````````````````````````
@@ -52,15 +52,15 @@ non_root_password: '$upEr_$EcrEt'
 github_token: my-github-token
 `````````````````````````````````````````
 
-Note: DO NOT SKIP THE SINGLE QUOTE (') ON 1!
-Note: You can encrypt the file using [ansible-vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
+Note: DO NOT SKIP THE SINGLE QUOTES (') ON non_root_password!!! <br />
+Note: You can encrypt the host_vars/localhost/passwords file using [ansible-vault.](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
 Anyway, the .gitignore will ignore any file which contains the string 'pass'.
 
 
 Now run:
-`ansible-playbook site.yml`
-Or in case you encrypted the passwords file, you could run:
+`ansible-playbook site.yml` <br />
+Or in case you encrypted the passwords file, you could run: <br />
 `ansible-playbook site.yml --ask-vault-password`
 
 And that's it! Reboot the machine when the playbook finishes.
